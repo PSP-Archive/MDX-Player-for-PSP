@@ -1,0 +1,24 @@
+CC = gcc
+LD = gcc
+AR = ar
+
+CFLAGS = -O2
+LFLAGS = 
+
+LIBNAME = libmdxmini.a
+
+OBJS =  mdxmini.o mdx2151.o mdxmml_ym2151.o 
+OBJS += pdxfile.o mdxfile.o pcm8.o ym2151.o
+
+SRCDIR = src
+
+all : $(LIBNAME)
+
+$(LIBNAME) : $(OBJS)
+	$(AR) r $@ $(OBJS)
+
+%.o : $(SRCDIR)/%.c
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+clean :
+	rm -f $(LIBNAME) $(OBJS)

@@ -1,0 +1,41 @@
+#
+# Makefile
+#
+
+DEBUG = 0
+
+TARGET = mdxplayer
+
+VERNUM = 0.01
+
+OBJS_SRC =  bg.o graph.o font.o filer.o button.o popup.o
+OBJS_SRC += pcm.o status.o main.o player.o menu.o config.o
+
+OBJS = $(addprefix src/,$(OBJS_SRC))
+LIBS = -lpsphprm -lpspgu -lpsprtc -lpsppower
+LIBS += -lpspaudiolib -lpspaudio -lmdxmini -lm -lstdc++
+
+ifeq ($(DEBUG),1)
+	CFLAGS = -g -Wall
+else
+	CFLAGS = -O2 -G0 -Wall
+endif
+
+
+INCDIR   = ../mini/src
+LIBDIR  = ../mini
+
+CFLAGS+= -DVERNUM="$(VERNUM)"
+
+CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
+ASFLAGS  = $(CFLAGS)
+
+LDFLAGS = 
+
+EXTRA_TARGETS = EBOOT.PBP
+PSP_EBOOT_TITLE = MDX PLAYER for PSP $(VERNUM)
+PSP_EBOOT_ICON = MDXPSP.PNG
+
+PSPSDK=$(shell psp-config --pspsdk-path)
+include $(PSPSDK)/lib/build.mak
+
